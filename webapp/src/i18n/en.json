@@ -1,0 +1,28 @@
+{
+  "AppName": "MernExample",
+  "AppDescription": "",
+  "errCodes": {
+    "400": "Api validation error",
+    "401": "Error while uploading",
+    "403": "Unknown error",
+    "404": "Api not found",
+    "500": "Internal server error",
+    "501": "Invalid file type",
+    "502": "No user access"
+  },
+  "successCodes": {
+    "LOGIN": "Login Successful!",
+    "LOGOUT": "Logout Successful!"
+  },
+  "Home": {
+    "UserNameOrEmailAddress": "Email",
+    "Password": "Password",
+    "SignInHeader": "SIGN IN",
+    "Login": "Sign in",
+    "Logout": "Log Out"
+  },
+  "ItemManagement":{
+    "PageHeader": "Item Management",
+    "PageDescription": "Manage items"
+  }
+}

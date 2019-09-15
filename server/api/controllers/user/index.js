@@ -15,6 +15,10 @@ const routes = {
    * Auth Route
    */
   'auth': require('./auth/route'),
+   /**
+   * Profile Route
+   */
+  'profile': require('./profile/route'),
   /**
    * Item Route
    */
@@ -64,8 +68,13 @@ module.exports = function(app) {
 
   const privateRouter = expressRouter();
 
-  /**
+   /**
    * Profile Route
+   */
+  privateRouter.use('/profile', routes.profile(app, options));
+
+  /**
+   * Item Route
    */
   privateRouter.use('/item', routes.item(app, options));
 
