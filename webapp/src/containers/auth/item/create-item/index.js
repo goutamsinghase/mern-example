@@ -51,8 +51,8 @@ class CreateItem extends Component {
         let errors = {
             ...this.state.errors
         };
-
-        for (let eachitem in this.state.item) {
+        // eslint-disable-next-line
+        for (let eachitem in this.state.item) { 
             error = false;
             if (!this.state.item[eachitem] && eachitem !== 'itemImage' && eachitem!=='createItemProcessing') {
                 error = true;

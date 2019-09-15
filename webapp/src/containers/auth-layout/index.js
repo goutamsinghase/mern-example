@@ -18,7 +18,6 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import Grid from "@material-ui/core/Grid";
-import ClosedLogo from "../../assets/images/g.png";
 import TopBarMenu from "../../components/TopBarMenu";
 
 import ScrollArea from "react-scrollbar";
@@ -157,7 +156,7 @@ class AuthLayout extends Component {
                     padding: "25px 0"
                   }}
                 >
-                  <img src={ClosedLogo} alt="logo" />
+                  MERN
                 </div>
               )}
               <Divider />

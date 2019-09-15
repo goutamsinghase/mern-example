@@ -6,9 +6,9 @@ module.exports = {
 
     'development':  'mongodb://goutamsingha:singha3goutam@ds237868.mlab.com:37868/projectdemo', 
 
-    'testing': 'mongodb://localhost/project',
+    'testing': 'mongodb://goutamsingha:singha3goutam@ds237868.mlab.com:37868/projectdemo',
 
-    'production': 'mongodb://localhost/project'
+    'production': 'mongodb://goutamsingha:singha3goutam@ds237868.mlab.com:37868/projectdemo'
   },
 
   'maxSessionAge': 60 * 60 * 1000
