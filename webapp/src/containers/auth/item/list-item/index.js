@@ -11,8 +11,6 @@ import Typography from "@material-ui/core/Typography";
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import InputBase from '@material-ui/core/InputBase';
-import SearchIcon from '@material-ui/icons/Search';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -37,8 +35,7 @@ class Item extends Component {
             skip: 0, 
             limit: 0, 
             total: 0
-        }, 
-        searchKey : ''
+        }
     };
 
     toggleDrawer = (side, open) => () => {
@@ -55,16 +52,17 @@ class Item extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.data !== this.props.data) {
             if(this.props.data.itemAPIData.itemList.data){
-                let totalPages = Math.ceil(this.props.data.itemAPIData.itemList.total/10);
-                let paginationList = [];
-                totalPages = totalPages>5? 5: totalPages;
-                for(let i=1;i<=totalPages;i++){
-                    paginationList.push(i);
-                }
+                    let totalPages = Math.ceil(this.props.data.itemAPIData.itemList.total/10);
+                    let paginationList = [];
+                    totalPages = totalPages>5? 5: totalPages;
+                    for(let i=1;i<=totalPages;i++){
+                        paginationList.push(i);
+                    }    
+                
                 this.setState({
                     ...this.state, 
                     itemList: this.props.data.itemAPIData.itemList,
-                    paginationList: paginationList
+                    paginationList: this.state.paginationList[this.state.paginationList.length-1]<5 ? paginationList: this.state.paginationList
                 });
             }
 
@@ -111,17 +109,6 @@ class Item extends Component {
         this.props.getItemList((lastPage*10), this.state.itemList.limit);
     }
 
-    handleSearchChange = (event)=>{
-        this.setState({
-            ...this.state, 
-            searchKey: event.target.value
-        });
-    }
-
-    searchItem = ()=>{
-        this.props.getItemList(this.state.itemList.skip, this.state.itemList.limit, this.state.searchKey);
-    }
-
     removeItem = (itemId)=>{
         this.props.removeItem(itemId);
     }
@@ -157,37 +144,7 @@ class Item extends Component {
                         </Drawer>
                     </Grid>
                     <Grid item xs={12} sm={12}>
-                        <Paper>
-                            <Grid container spacing={24}>
-                                <Grid item xs={6} sm={6}>
-                                    <Paper className={classes.searchArea}>
-                                        <IconButton className={classes.iconButton} aria-label="Search">
-                                            <SearchIcon/>
-                                        </IconButton>
-                                        <InputBase className={classes.input} placeholder="Search Items" value={this.state.searchKey} onChange={this.handleSearchChange} style={{width: '85%'}}/>
-                                    </Paper>
-                                </Grid>
-                                <Grid
-                                    item
-                                    xs={4}
-                                    sm={4}
-                                    style={{
-                                    paddingTop: '16px'
-                                }}>
-                                </Grid>
-                                <Grid item xs={2} sm={2}>
-                                    <Button
-                                        variant="contained"
-                                        size="large"
-                                        color="primary"
-                                        className={classes.searchButton}
-                                        onClick={this.searchItem}>
-                                        Search
-                                    </Button>
-                                </Grid>
-
-                            </Grid>
-                        </Paper>
+                       
                         <Paper
                             style={{
                             marginTop: '13px'
@@ -207,10 +164,11 @@ class Item extends Component {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {itemList.map(item => (
+                                        {itemList.map(item => {
+                                            return item.composer ? (
                                             <TableRow key={item._id}>
                                                 <TableCell component="th" scope="row">
-                                                    {item.name || ''}
+                                                    {item.name+ '(Composer Name)' || ''}
                                                 </TableCell>
                                                 <TableCell align="right">{item.composer.picture || ''}</TableCell>
                                                 <TableCell align="right">{item.composer.gross || ''}</TableCell>
@@ -222,7 +180,64 @@ class Item extends Component {
           <DeleteIcon fontSize="small" />
         </IconButton></TableCell>
                                             </TableRow>
-                                        ))}
+                                        ): item.actor ? (<TableRow key={item._id}>
+                                            <TableCell component="th" scope="row">
+                                                    {item.name+ '(Actor Name)' || ''}
+                                                </TableCell>
+                                                <TableCell align="right">{item.actor.picture || ''}</TableCell>
+                                                <TableCell align="right">{item.actor.gross || ''}</TableCell>
+                                                <TableCell align="right">{item.actor.average || ''}</TableCell>
+                                                <TableCell align="right">{item.actor.movies || ''}</TableCell>
+                                                <TableCell align="right">{item.actor.total_gross || ''}</TableCell>
+                                                <TableCell align="right">{item.actor.rank || ''}</TableCell>
+                                                <TableCell align="right" onClick={()=>this.removeItem(item._id)}><IconButton aria-label="delete" className={classes.margin}>
+          <DeleteIcon fontSize="small" />
+        </IconButton></TableCell> </TableRow>): item.director ? (
+            <TableRow key={item._id}>
+            <TableCell component="th" scope="row">
+                    {item.name + '(Director Name)' || ''}
+                </TableCell>
+                <TableCell align="right">{item.director.picture || ''}</TableCell>
+                <TableCell align="right">{item.director.gross || ''}</TableCell>
+                <TableCell align="right">{item.director.average || ''}</TableCell>
+                <TableCell align="right">{item.director.movies || ''}</TableCell>
+                <TableCell align="right">{item.director.total_gross || ''}</TableCell>
+                <TableCell align="right">{item.director.rank || ''}</TableCell>
+                <TableCell align="right" onClick={()=>this.removeItem(item._id)}><IconButton aria-label="delete" className={classes.margin}>
+<DeleteIcon fontSize="small" />
+</IconButton></TableCell> </TableRow>
+        ): item.producer ? (
+            <TableRow key={item._id}>
+            <TableCell component="th" scope="row">
+                    {item.name+ '(Producer Name)' || ''}
+                </TableCell>
+                <TableCell align="right">{item.producer.picture || ''}</TableCell>
+                <TableCell align="right">{item.producer.gross || ''}</TableCell>
+                <TableCell align="right">{item.producer.average || ''}</TableCell>
+                <TableCell align="right">{item.producer.movies || ''}</TableCell>
+                <TableCell align="right">{item.producer.total_gross || ''}</TableCell>
+                <TableCell align="right">{item.producer.rank || ''}</TableCell>
+                <TableCell align="right" onClick={()=>this.removeItem(item._id)}><IconButton aria-label="delete" className={classes.margin}>
+<DeleteIcon fontSize="small" />
+</IconButton></TableCell> </TableRow>
+        ): item.screenwriter ? ( <TableRow key={item._id}>
+            <TableCell component="th" scope="row">
+                    {item.name+ '(Screen Writer Name)' || ''}
+                </TableCell>
+                <TableCell align="right">{item.screenwriter.picture || ''}</TableCell>
+                <TableCell align="right">{item.screenwriter.gross || ''}</TableCell>
+                <TableCell align="right">{item.screenwriter.average || ''}</TableCell>
+                <TableCell align="right">{item.screenwriter.movies || ''}</TableCell>
+                <TableCell align="right">{item.screenwriter.total_gross || ''}</TableCell>
+                <TableCell align="right">{item.screenwriter.rank || ''}</TableCell>
+                <TableCell align="right" onClick={()=>this.removeItem(item._id)}><IconButton aria-label="delete" className={classes.margin}>
+<DeleteIcon fontSize="small" />
+</IconButton></TableCell> </TableRow>): (<TableRow key={item._id}>
+            <TableCell component="th" scope="row">
+                    {item.name + '(Cinematographer Name)' || ''} 
+                </TableCell></TableRow>);
+                                    })
+                                    }
                                     </TableBody>
                                 </Table>
                                 <div style={{width: '100%', padding: '20px',textAlign: 'end'}}>
