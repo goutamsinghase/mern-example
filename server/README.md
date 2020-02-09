@@ -60,4 +60,4 @@ $ npm run lint-watch
 
 ## Acknowledgments
 
-* [IntuifyCode Solution Solution Pvt. Ltd.](http://www.intuifycode.com)
+* [IntuifyCode Solution Pvt. Ltd.](http://www.intuifycode.com)

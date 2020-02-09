@@ -21,4 +21,4 @@ Go to [webapp](https://github.com/goutamsinghase/mern-example/tree/master/webapp
 
 ## Acknowledgments
 
-* [IntuifyCode Solution Solution Pvt. Ltd.](http://www.intuifycode.com)
+* [IntuifyCode Solution Pvt. Ltd.](http://www.intuifycode.com)
